@@ -13,6 +13,8 @@ kaboom({
 });
 
 loadSprite("bag", "/sprites/bag.png");
+loadSprite("paul", "/sprites/paul.png");
+loadSprite("sam", "/sprites/sam.png");
 loadSprite("btfly", "/sprites/btfly.png");
 loadSprite("table", "/sprites/table.png");
 loadSprite("apple", "/sprites/apple.png");
@@ -20,8 +22,8 @@ loadSprite("ghosty", "/sprites/ghosty.png");
 loadSprite("brick", "/sprites/brick.png");
 loadSprite("steel", "/sprites/steel.png");
 loadSprite("door", "/sprites/door.png");
-loadSprite("key", "/sprites/key.png");
-loadSprite("bean", "/sprites/bean.png");
+loadSprite("key", "/sprites/laptop.png");
+loadSprite("bean", "/sprites/man.png");
 
 const API_URL = "http://localhost:3000";
 
@@ -41,6 +43,7 @@ export async function fetchHumans() {
 
 scene("main", async (levelIdx) => {
   const SPEED = 1020;
+  const PLAYER_NAME = "Ion Petropoulos"; // Add this line
 
   // Fetch characters from the server
   const charactersList = await fetchHumans();
@@ -53,57 +56,64 @@ scene("main", async (levelIdx) => {
       id: char.id,
       name: char.name,
       sprite: char.sprite,
-      msg: "Hi Bean! You should get that key!",
+      msg: "The best way to get that key is to build something people want.",
     };
   });
 
   // level layouts
   const levels = [
     [
-      "=======================================",
-      "|         =     = =        =          =",
-      "=    =       c             =          =",
-      "================      ==   ==  ========",
-      "= -- = -- = -- =      ==              =",
-      "=    =    =    =                 =   -=",
-      "=    =    =    =         b       =  --=",
-      "===  ===  ===  ===         ============",
-      "=                =                    =",
-      "=                ====  e     ---------=",
-      "=------  ---     ====                 =",
-      "=                            ---------=",
-      "=--  -------                          =",
-      "=              =                      =",
-      "=------  ---   =                      =",
-      "=              =      =       =    d  =",
-      "=--  -------   =-     =       =--     =",
-      "=              =- c   =   --  =---$   =",
-      "===================   =================",
-      "                    @                  ",
+      "========================================",
+      "|         =     = =        =           =",
+      "=    =                     =           =",
+      "================      ==   ==  =========",
+      "=    = -- = -- =      ==   |           =",
+      "= -- =    =    =           =     =   - =",
+      "=    =    =    =           =     =  -- =",
+      "===|====|====|====         =============",
+      "=                =                     =",
+      "=                ====        ----------=",
+      "=------  ---     ====                  =",
+      "=                            ----------=",
+      "=              =                       =",
+      "=------  ---   =          =====        =",
+      "=              = -    =       =    b   =",
+      "=--  -------   = -    =       =--      =",
+      "=              = -    =  ---  =---   $ =",
+      "==================    ==================",
+      "==================  @ ==================",
+      "===================|====================",
     ],
+
     [
-      "==========================================",
-      "=-----------       =                     =",
-      "=                  =                     =",
-      "=-----------       =               =     =",
-      "=                  =               =     =",
-      "=-----------       ==========      =     =",
-      "=   $              =        =      =======",
-      "=             c    =        =      =======",
-      "=                  ==========      =     =",
-      "=======                            =     =",
-      "=                                        =",
-      "=       =          =                  ---=",
-      "=       =          ======                =",
-      "=       =         @ ==========        ---=",
-      "=================|========================",
+      "======================================",
+      "=-----------       =                 =",
+      "=                  =                 =",
+      "=-----------       =           =     =",
+      "=                  =           =     =",
+      "=-----------       ==========  =     =",
+      "=                  =        =  =======",
+      "=             c    =        =  =======",
+      "=                  ==========  =     =",
+      "=======                        =     =",
+      "=                                    =",
+      "=                                    =",
+      "=                                    =",
+      "=                                    =",
+      "=                                    =",
+      "=                                    =",
+      "=                                    =",
+      "=       =          =              ---=",
+      "=       =          ======            =",
+      "=       =         @ ==========    ---=",
+      "=================|====================",
     ],
   ];
 
   const level = addLevel(levels[levelIdx], {
     tileWidth: 64,
     tileHeight: 64,
-    pos: vec2(64, 64),
+    pos: vec2(200, 170),
     tiles: {
       "=": () => [
         sprite("brick"),
@@ -145,6 +155,24 @@ scene("main", async (levelIdx) => {
       }
     },
   });
+
+  const playerText = add([
+    text(`username: ${PLAYER_NAME}`),
+    pos(50, 50), // Position it above the level text
+    fixed(),
+    {
+      depth: 100,
+    },
+  ]);
+
+  const levelText = add([
+    text(`Level ${levelIdx + 1}`),
+    pos(width() - 250, 50),
+    fixed(),
+    {
+      depth: 100,
+    },
+  ]);
 
   // get the player game obj by tag
   const player = level.get("player")[0];
