@@ -56,7 +56,7 @@ scene("main", async (levelIdx) => {
       id: char.id,
       name: char.name,
       sprite: char.sprite,
-      msg: "The best way to get that key is to build something people want.",
+      msg: char.message,
     };
   });
 
