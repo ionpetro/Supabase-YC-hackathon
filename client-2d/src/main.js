@@ -42,7 +42,7 @@ export async function fetchHumans() {
 }
 
 scene("main", async (levelIdx) => {
-  const SPEED = 1020;
+  const SPEED = 600;
   const PLAYER_NAME = "Ion Petropoulos"; // Add this line
 
   // Fetch characters from the server
@@ -261,10 +261,6 @@ scene("main", async (levelIdx) => {
       player.move(dirs[dir].scale(SPEED));
     });
   }
-});
-
-scene("win", () => {
-  add([text("You Win!"), pos(width() / 2, height() / 2), anchor("center")]);
 });
 
 go("main", 0);
